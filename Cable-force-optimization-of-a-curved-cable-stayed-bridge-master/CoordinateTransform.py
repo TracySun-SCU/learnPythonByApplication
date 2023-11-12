@@ -4,12 +4,12 @@ import math
 from ErnstEquation import CableEqualStiffness
 
 
-def PointsRotate (alpha,x,y):
+def PointsRotate(alpha,x,y):
 	#input: x,y in global coordinate axis; alpha rotate angle (radian)-anticlockwise
 	#output: newx,newy
 	if x==0 and y==0:
-			newX=0.0
-			newY=0.0
+		newX=0.0
+		newY=0.0
 	elif x>0.0 and y==0:
 		length1=(x**2+y**2)**0.5
 		angle1=0.0
@@ -18,19 +18,19 @@ def PointsRotate (alpha,x,y):
 		newY=(length1*math.sin(newAngle))
 	elif x==0.0 and y>0:
 		length2=(x**2+y**2)**0.5
-		angle2=(90.0/float(180.0))*math.pi
+		angle2 = 90.0 / 180.0 * math.pi
 		newAngle=angle2+alpha
 		newX=(length2*math.cos(newAngle))
 		newY=(length2*math.sin(newAngle))
 	elif x<0.0 and y==0:
 		length3=(x**2+y**2)**0.5
-		angle3=(180.0/float(180.0))*math.pi
+		angle3 = 1.0 * math.pi
 		newAngle=angle3+alpha
 		newX=(length3*math.cos(newAngle))
 		newY=(length3*math.sin(newAngle))
 	elif x==0.0 and y<0:
 		length4=(x**2+y**2)**0.5
-		angle4=(270.0/float(180.0))*math.pi
+		angle4 = 270.0 / 180.0 * math.pi
 		newAngle=angle4+alpha
 		newX=(length4*math.cos(newAngle))
 		newY=(length4*math.sin(newAngle))
@@ -123,7 +123,7 @@ def PointTransform (alpha,girdernodes,savefilename):
 	np.savetxt(savefilename,aa,fmt="%d %.3f %.3f %.3f %.3f")
 
 ########################################################################################################################
-def GirderLocalAxis (alpha,girdernodes,elements):
+def GirderLocalAxis(alpha,girdernodes,elements):
 	"""return girder local axis after alpha rotating
 	input:alpha-rotate angle (anticlockwise);girdernodes-[nodeNumber,x,y,z,nodemass]
 	      elements-[elenum,i,j,A,E,G,J,Iy,Iz,transfNumber]
@@ -133,7 +133,7 @@ def GirderLocalAxis (alpha,girdernodes,elements):
 				       |
 					   |
 					   |--------->z (local)"""
-	radianAlpha=(alpha/float(180.0))*math.pi
+	radianAlpha = alpha / 180.0 * math.pi
 	m=np.shape(elements)[0]
 	n=np.shape(girdernodes)[0]
 	element=np.mat(elements)
@@ -207,7 +207,7 @@ def CableMatEle (cableEleFile,cableNodesFile):
 	np.savetxt("newCableEle.txt",cableEle,fmt="%d %d %d %.6f %d")
 #######################################################################################################################
 
-def PierLocalTransf (Newpiernodes,Newcablenodes,elements):
+def PierLocalTransf(Newpiernodes,Newcablenodes,elements):
 	"""return pier local axis after alpha rotating
 	input:Newpiernodes-[nodeNumber,x,y,z,nodemass]
 	      elements-[elenum,i,j,transfNumber]
@@ -253,7 +253,7 @@ def PierLocalTransf (Newpiernodes,Newcablenodes,elements):
 
 	mr=len(ReferenceVector)
 	m=np.shape(node)[0]
-	
+
 	for i2 in range(mr):
 		for i3 in range(m):
 			if ReferenceVector[i2][0]==node[i3,0]:
@@ -269,7 +269,7 @@ def PierLocalTransf (Newpiernodes,Newcablenodes,elements):
 		Ytransy.append(tranY)
 		Ytransz.append(0.0)
 
-	
+
 	Znumber=[]
 	Ztransx=[]
 	Ztransy=[]
@@ -277,7 +277,7 @@ def PierLocalTransf (Newpiernodes,Newcablenodes,elements):
 
 
 	for i6 in range(83):
-		returnx,returny=Localtransf ((90.0/float(180.0))*math.pi,Ytransx[0],Ytransy[0])
+		returnx,returny = Localtransf(90.0 / 180.0 * math.pi, Ytransx[0], Ytransy[0])
 
 		Znumber.append(element[i6,3])
 		Ztransx.append(returnx)
@@ -285,7 +285,7 @@ def PierLocalTransf (Newpiernodes,Newcablenodes,elements):
 		Ztransz.append(0)
 
 	for i7 in range(83,191):
-		returnx,returny=Localtransf ((90.0/float(180.0))*math.pi,Ytransx[1],Ytransy[1])
+		returnx,returny = Localtransf(90.0 / 180.0 * math.pi, Ytransx[1], Ytransy[1])
 
 		Znumber.append(element[i7,3])
 		Ztransx.append(returnx)
@@ -293,7 +293,7 @@ def PierLocalTransf (Newpiernodes,Newcablenodes,elements):
 		Ztransz.append(0)
 
 	for i8 in range(191,203):
-		returnx,returny=Localtransf ((90.0/float(180.0))*math.pi,Ytransx[2],Ytransy[2])
+		returnx,returny = Localtransf(90.0 / 180.0 * math.pi, Ytransx[2], Ytransy[2])
 
 		Znumber.append(element[i8,3])
 		Ztransx.append(returnx)
@@ -301,7 +301,7 @@ def PierLocalTransf (Newpiernodes,Newcablenodes,elements):
 		Ztransz.append(0)
 
 	for i9 in range(203,215):
-		returnx,returny=Localtransf ((90.0/float(180.0))*math.pi,Ytransx[3],Ytransy[3])
+		returnx,returny = Localtransf(90.0 / 180.0 * math.pi, Ytransx[3], Ytransy[3])
 
 		Znumber.append(element[i9,3])
 		Ztransx.append(returnx)
@@ -309,7 +309,7 @@ def PierLocalTransf (Newpiernodes,Newcablenodes,elements):
 		Ztransz.append(0)
 
 	for i10 in range(215,219):
-		returnx,returny=Localtransf ((90.0/float(180.0))*math.pi,Ytransx[4],Ytransy[4])
+		returnx,returny = Localtransf(90.0 / 180.0 * math.pi, Ytransx[4], Ytransy[4])
 
 		Znumber.append(element[i10,3])
 		Ztransx.append(returnx)
@@ -317,7 +317,7 @@ def PierLocalTransf (Newpiernodes,Newcablenodes,elements):
 		Ztransz.append(0)
 
 	for i11 in range(219,223):
-		returnx,returny=Localtransf ((90.0/float(180.0))*math.pi,Ytransx[5],Ytransy[5])
+		returnx,returny = Localtransf(90.0 / 180.0 * math.pi, Ytransx[5], Ytransy[5])
 
 		Znumber.append(element[i11,3])
 		Ztransx.append(returnx)
@@ -325,14 +325,14 @@ def PierLocalTransf (Newpiernodes,Newcablenodes,elements):
 		Ztransz.append(0)
 
 	for i12 in range(223,225):
-		returnx,returny=Localtransf ((90.0/float(180.0))*math.pi,Ytransx[6],Ytransy[6])
+		returnx,returny = Localtransf(90.0 / 180.0 * math.pi, Ytransx[6], Ytransy[6])
 
 		Znumber.append(element[i12,3])
 		Ztransx.append(returnx)
 		Ztransy.append(returny)
 		Ztransz.append(0)
 
-	
+
 	hZnumber=np.mat(Znumber).T
 	hZtransx=np.mat(Ztransx).T
 	hZtransy=np.mat(Ztransy).T
@@ -341,13 +341,13 @@ def PierLocalTransf (Newpiernodes,Newcablenodes,elements):
 	np.savetxt("newPierTransf.txt",aa,fmt="%d %.6f %.6f %.6f")
 #######################################################################################################################
 
-def CrossBeamLocalTransf (Newpiernodes,CrossBeamEle):
+def CrossBeamLocalTransf(Newpiernodes,CrossBeamEle):
 	"""return crossbeam local axis after alpha rotating
 	input:Newpiernodes-[nodeNumber,x,y,z,nodemass]
 	      CrossBeamEle-[elenum,i,j,A,E,G,J,Iy,Iz,transfNumber]
 	output:crossBeam local axis-[number,x,y,z]"""
 	ReferenceVector=[(2201,2301),(8202,8302)]
-	
+
 	node=np.mat(Newpiernodes)
 	crossBeamEle=np.mat(CrossBeamEle)
 	m=np.shape(node)[0]
@@ -371,7 +371,7 @@ def CrossBeamLocalTransf (Newpiernodes,CrossBeamEle):
 				nodejy=node[i3,2]
 		vectorx=nodejx-nodeix
 		vectory=nodejy-nodeiy
-		tranX,tranY=Localtransf((270.0/float(180.0))*math.pi,vectorx,vectory)
+		tranX,tranY = Localtransf(270.0 / 180.0 * math.pi, vectorx, vectory)
 		Ztransx.append(tranX)
 		Ztransy.append(tranY)
 		Ztransz.append(0.0)
@@ -386,8 +386,8 @@ def CrossBeamLocalTransf (Newpiernodes,CrossBeamEle):
 		ZZtransy.append(Ztransy[1])
 		ZZtransz.append(Ztransz[1])
 
-		
-		
+
+
 
 	hZnumber=np.mat(Znumber).T
 	hZtransx=np.mat(ZZtransx).T
@@ -398,7 +398,7 @@ def CrossBeamLocalTransf (Newpiernodes,CrossBeamEle):
 
 
 ######################################################################################################################
-def EqualDOFLocalTransf (Newpiernodes):
+def EqualDOFLocalTransf(Newpiernodes):
 	"""return EqualDOF local axis after alpha rotating
 	input:Newpiernodes-[nodeNumber,x,y,z,nodemass]
 	output:equalDOF local axis-[number,x,y,z]"""
@@ -421,13 +421,13 @@ def EqualDOFLocalTransf (Newpiernodes):
 				nodejy=node[i3,2]
 		vectorx=nodejx-nodeix
 		vectory=nodejy-nodeiy
-		tranX,tranY=Localtransf((270.0/float(180.0))*math.pi,vectorx,vectory)
+		tranX,tranY = Localtransf(270.0 / 180.0 * math.pi, vectorx, vectory)
 		Ztransx.append(tranX)
 		Ztransy.append(tranY)
 		Ztransz.append(0.0)
 
-		
-		
+
+
 
 	hZtransx=np.mat(Ztransx).T
 	hZtransy=np.mat(Ztransy).T

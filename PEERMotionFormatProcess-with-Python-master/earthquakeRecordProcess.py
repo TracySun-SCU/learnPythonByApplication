@@ -58,20 +58,17 @@ if __name__=='__main__':
 	#Clearing existing files
 	[shutil.rmtree(x) for x in timeFileDict.values()]
 	for toplevel,seclevel in midirList:
-			os.makedirs(toplevel+"/"+seclevel)
-	
+		os.makedirs(f"{toplevel}/{seclevel}")
+
 	fileListE=[]
 	fileListN=[]
 	fileListV=[]
-	# text file read and process
-	fileNameOpen=open("FileName.txt")
-	for line in fileNameOpen.readlines():
-		curLine=line.strip().split("\t")
-		fileListE.append(curLine[0].split(".AT2")[0])
-		fileListN.append(curLine[1].split(".AT2")[0])
-		fileListV.append(curLine[2].split(".AT2")[0])
-	fileNameOpen.close()	
-
+	with open("FileName.txt") as fileNameOpen:
+		for line in fileNameOpen:
+			curLine=line.strip().split("\t")
+			fileListE.append(curLine[0].split(".AT2")[0])
+			fileListN.append(curLine[1].split(".AT2")[0])
+			fileListV.append(curLine[2].split(".AT2")[0])
 	finalLengthList=[]
 	finaltimeList=[]
 	finalFileNameList=[]
@@ -105,10 +102,14 @@ if __name__=='__main__':
 			timeList.append(accDeltaT)
 
 			cwd=os.getcwd()
-			savePathName=os.path.join(cwd,timeFileDict[eachCase[1]]+"/"+fileDirection+"/",filePrefix+".txt")
+			savePathName = os.path.join(
+				cwd,
+				f"{timeFileDict[eachCase[1]]}/{fileDirection}/",
+				f"{filePrefix}.txt",
+			)
 			np.savetxt(savePathName,accTimeHistory,fmt="%f")
-		
-		
+
+
 		finalLengthList.append(min(lengthList))
 		finaltimeList.append(min(timeList))
 

@@ -33,7 +33,7 @@ def Bspline2CableForce (x_new,forcex,forcey):
 	return Force1
 
 #######################################################################################################################
-def CalculateNewObjectFunction (cableForceList):
+def CalculateNewObjectFunction(cableForceList):
 
 	cableEle=np.loadtxt("CableEleForce.txt")
 	cableEle[:,3]=cableForceList
@@ -56,9 +56,11 @@ def CalculateNewObjectFunction (cableForceList):
 	number.sort()
 
 	girderDisp=[]
-	for i2 in range(len(number)):
+	for item in number:
 		cwd=os.getcwd()
-		pathall=os.path.join(cwd,'GirderResponse/GirderNodeDisp/',str(number[i2]),"1.out")
+		pathall = os.path.join(
+			cwd, 'GirderResponse/GirderNodeDisp/', str(item), "1.out"
+		)
 		txtopen=np.loadtxt(pathall)
 		sect=np.mat(txtopen)
 		girderDisp.append(sect[0,3])
@@ -80,9 +82,9 @@ def CalculateNewObjectFunction (cableForceList):
 
 	PylonDispx=[]
 	PylonDispy=[]
-	for i3 in range(len(number1)):
+	for item_ in number1:
 		cwd=os.getcwd()
-		pathall=os.path.join(cwd,'PylonNodeDispSet/',str(number1[i3]),"1.out")
+		pathall = os.path.join(cwd, 'PylonNodeDispSet/', str(item_), "1.out")
 		txtopen=np.loadtxt(pathall)
 		sect=np.mat(txtopen)
 		PylonDispx.append(sect[0,1])
@@ -116,13 +118,12 @@ def sgnFun (t):
 	else:
 		return 0
 ########################################################################################################################
-def yChange (T):
+def yChange(T):
 	
 	u=random.uniform(0,1)
-	y=T*sgnFun(u-0.5)*((1+1/float(T))**abs(2*u-1)-1)
-	return y
+	return T*sgnFun(u-0.5)*((1+1/float(T))**abs(2*u-1)-1)
 #######################################################################################################################
-def UpdateCableForce (newX1,newX2,newX3,newX4,newY1,newY2,newY3,newY4,x_new1,x_new2,x_new3,x_new4):
+def UpdateCableForce(newX1,newX2,newX3,newX4,newY1,newY2,newY3,newY4,x_new1,x_new2,x_new3,x_new4):
 
 
 	forcex1,forcey1=BsplineCurve (newX1,newY1)
@@ -141,17 +142,44 @@ def UpdateCableForce (newX1,newX2,newX3,newX4,newY1,newY2,newY3,newY4,x_new1,x_n
 #	forcex4,forcey4=BnSpline (newX4,newY4,3,0.01)
 	cableForce4=Bspline2CableForce (x_new4,forcex4,forcey4)
 
-	cableForceList=cableForce1+cableForce1+cableForce2+cableForce2+cableForce3+cableForce3+cableForce4+cableForce4
-
-	return cableForceList
+	return (
+		cableForce1
+		+ cableForce1
+		+ cableForce2
+		+ cableForce2
+		+ cableForce3
+		+ cableForce3
+		+ cableForce4
+		+ cableForce4
+	)
 ##########################################################################################################################
-def UpdateCoordinatesValue (T,initX1,initX2,initX3,initX4,initY1,initY2,initY3,initY4):
-	newX1=[initX1[0],initX1[1]+yChange (T)*(24-24),initX1[2]+yChange (T)*(48-48),initX1[3]]
-	newX2=[initX2[0],initX2[1]+yChange (T)*(40-40),initX2[2]+yChange (T)*(80-80),initX2[3]]
-	newX3=[initX3[0],initX3[1]+yChange (T)*(60-60),initX3[2]+yChange (T)*(120-120),initX3[3]]
-	newX4=[initX4[0],initX4[1]+yChange (T)*(35-35),initX4[2]+yChange (T)*(70-70),initX4[3]]
+def UpdateCoordinatesValue(T,initX1,initX2,initX3,initX4,initY1,initY2,initY3,initY4):
+	newX1 = [
+		initX1[0],
+		initX1[1] + yChange(T) * 0,
+		initX1[2] + yChange(T) * 0,
+		initX1[3],
+	]
+	newX2 = [
+		initX2[0],
+		initX2[1] + yChange(T) * 0,
+		initX2[2] + yChange(T) * 0,
+		initX2[3],
+	]
+	newX3 = [
+		initX3[0],
+		initX3[1] + yChange(T) * 0,
+		initX3[2] + yChange(T) * 0,
+		initX3[3],
+	]
+	newX4 = [
+		initX4[0],
+		initX4[1] + yChange(T) * 0,
+		initX4[2] + yChange(T) * 0,
+		initX4[3],
+	]
 
-	
+
 	while True:
 		newY1=[initY1[0]+yChange (T)*1000,initY1[1]+yChange (T)*1000,initY1[2]+yChange (T)*1000,initY1[3]+yChange (T)*1000]
 		if 1000<newY1[0]<newY1[1]<newY1[2]<newY1[3]<5500:
@@ -181,7 +209,7 @@ def UpdateCoordinatesValue (T,initX1,initX2,initX3,initX4,initY1,initY2,initY3,i
 	
 ##########################################################################################################################
 
-def SA (maxT,minT,nIter,initX1,initX2,initX3,initX4,initY1,initY2,initY3,initY4,x_new1,x_new2,x_new3,x_new4):
+def SA(maxT,minT,nIter,initX1,initX2,initX3,initX4,initY1,initY2,initY3,initY4,x_new1,x_new2,x_new3,x_new4):
 
 	T=maxT
 	k=0
@@ -192,15 +220,15 @@ def SA (maxT,minT,nIter,initX1,initX2,initX3,initX4,initY1,initY2,initY3,initY4,
 	savecableForceList=[]
 	savek=[]
 
-	
-	
+
+
+	alpha=0.95 #alpha [0.7 1]
 	while T>=minT:
 
 		kk=0
 		savekk=[]
 
-		for iiter in range(nIter):
-
+		for _ in range(nIter):
 			oldCableForceList=UpdateCableForce (initX1,initX2,initX3,initX4,initY1,initY2,initY3,initY4,x_new1,x_new2,x_new3,x_new4)
 
 
@@ -212,7 +240,7 @@ def SA (maxT,minT,nIter,initX1,initX2,initX3,initX4,initY1,initY2,initY3,initY4,
 					break
 
 
-			
+
 			newX1,newX2,newX3,newX4,newY1,newY2,newY3,newY4=UpdateCoordinatesValue (T,initX1,initX2,initX3,initX4,initY1,initY2,initY3,initY4)
 			newCableForceList=UpdateCableForce (newX1,newX2,newX3,newX4,newY1,newY2,newY3,newY4,x_new1,x_new2,x_new3,x_new4)
 
@@ -263,7 +291,7 @@ def SA (maxT,minT,nIter,initX1,initX2,initX3,initX4,initY1,initY2,initY3,initY4,
 		savecableForceList.append(oldCableForceList)
 		savek.append(k)
 
-		
+
 		np.savetxt("maxGirderDisp.txt",savenewmaxGDisp,fmt="%.6f")
 
 		np.savetxt("maxPylonDispx.txt",savenewmaxPyDispx,fmt="%.6f")
@@ -277,7 +305,6 @@ def SA (maxT,minT,nIter,initX1,initX2,initX3,initX4,initY1,initY2,initY3,initY4,
 		np.savetxt("iterNumber.txt",savek,fmt="%d")
 
 		k=k+1
-		alpha=0.95 #alpha [0.7 1]
 		T=maxT*alpha**k
 
 

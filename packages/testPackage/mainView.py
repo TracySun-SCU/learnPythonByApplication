@@ -184,8 +184,7 @@ class spectraPage(wx.Panel):
 
     def loadData(self):
         loadDB = shelve.open('dataStore.db')
-        acc = loadDB.get("inputAcc")
-        return acc
+        return loadDB.get("inputAcc")
 
     def ui(self):
         sizerbase = wx.BoxSizer(wx.HORIZONTAL)

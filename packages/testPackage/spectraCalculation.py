@@ -3,7 +3,7 @@ python 2.7
 """
 import numpy as np
 #####################################################
-def calResponseSpe (acc,dt,m,T,beta):
+def calResponseSpe(acc,dt,m,T,beta):
     """
     acc - acceleration
     dt - time interval
@@ -20,11 +20,10 @@ def calResponseSpe (acc,dt,m,T,beta):
     # newMark-beta parameters set
     r = 1.0 / 2.0
     b = 1.0 / 4.0
-    accList = []
     velList = [0]
     dispList = [0]
     acc0 = (accel[0] - c * velList[0] - k * dispList[0]) / float(m)
-    accList.append(acc0)
+    accList = [acc0]
     a1 = m / float(b * t ** 2) + r * c / float(b * t)
     a2 = m / float(b * t) + (r / float(b) - 1) * c
     a3 = (1.0 / float(2 * b) - 1) * m + t * c * (r / float(2 * b) - 1.0)
